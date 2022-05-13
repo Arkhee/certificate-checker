@@ -59,7 +59,10 @@ class CertificateMonitor
 
     public static function getDomainDates($domaine,&$dateDebut,&$dateFin)
     {
+        // Cmd line without domains
         $cmd="echo '' | timeout 2 openssl s_client -servername ".$domaine." -connect ".$domaine.":443 2>/dev/null | openssl x509 -noout -dates";
+        // Cmd line with domains
+        $cmd="echo '' | timeout 2 openssl s_client -servername ".$domaine." -connect ".$domaine.":443 2>/dev/null | openssl x509 -noout -dates -text";
         $resultat=null;
         exec($cmd,$resultat);
         $output=self::t("Retour openssl")." : ".print_r($resultat,true)."\r\n";
