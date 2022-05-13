@@ -20,6 +20,16 @@ class CertificateMonitor
             }
         }
     }
+
+    public static function checkSecurityKey()
+    {
+        $key=CertificateMonitorSettings::$security_key;
+        if(!empty($key) && (!isset($_GET["key"]) || empty($_GET["key"]) || $_GET["key"]!==$key))
+        {
+            die("Incorrect security key");
+        }
+    }
+
     public static function getDelay()
     {
         return CertificateMonitorSettings::$expiration_delay;
