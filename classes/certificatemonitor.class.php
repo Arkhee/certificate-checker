@@ -6,7 +6,7 @@ class CertificateMonitor
     static $tableExpiration=array();
     static $arrListeDomainesSansDate=array();
     static $arrListeDomainesAvecDateExpiration=array();
-
+    static $DNS=array();
     public static function loadTranslations()
     {
         if(is_null(self::$translations)) {
@@ -64,6 +64,7 @@ class CertificateMonitor
         exec($cmd,$resultat);
         $output=self::t("Retour openssl")." : ".print_r($resultat,true)."\r\n";
         self::log(self::t("retour")." ".$output);
+        self::$DNS[$domaine]="";
         if(is_array($resultat) && count($resultat)>0)
         {
             foreach($resultat as $curRes)
@@ -75,6 +76,10 @@ class CertificateMonitor
                 if(strpos($curRes,"notAfter=")!==false)
                 {
                     $dateFin=strtotime(str_replace("notAfter=","",$curRes));
+                }
+                if(strpos($curRes,"DNS:")!==false)
+                {
+                    self::$DNS[$domaine]=trim(str_replace("DNS:","",$curRes));
                 }
             }
         }
@@ -136,12 +141,12 @@ class CertificateMonitor
         if(is_array(self::$arrListeDomainesAvecDateExpiration) && count(self::$arrListeDomainesAvecDateExpiration))
         {
             echo "<h2>".self::t("Liste des domaines triés par date d'expiration")." :</h2>\r\n";
-            echo "<table><tr><th>".self::t("Nom")."</th><th>".self::t("Date")."</th></tr>";
+            echo "<table><tr><th>".self::t("Nom")."</th><th>".self::t("Date")."</th><th>DNS</th></tr>";
             foreach(self::$arrListeDomainesAvecDateExpiration as $keyDate => $listeDomaines)
             {
                 foreach($listeDomaines as $domaine)
                 {
-                    echo "<tr><td>".$domaine . "</td><td>".date("d/m/Y",$keyDate)."</td></tr>";
+                    echo "<tr><td>".$domaine . "</td><td>".date("d/m/Y",$keyDate)."</td><td>".(isset(self::$DNS[$domaine])?self::$DNS[$domaine]:"")."</td></tr>";
                 }
             }
             echo "</table>";
