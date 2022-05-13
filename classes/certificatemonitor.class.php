@@ -135,7 +135,7 @@ class CertificateMonitor
     {
         if(is_array(self::$arrListeDomainesAvecDateExpiration) && count(self::$arrListeDomainesAvecDateExpiration))
         {
-            echo self::t("Liste des domaines triés par date")." :<br>\r\n";
+            echo "<h2>".self::t("Liste des domaines triés par date d'expiration")." :</h2>\r\n";
             echo "<table><tr><th>".self::t("Nom")."</th><th>".self::t("Date")."</th></tr>";
             foreach(self::$arrListeDomainesAvecDateExpiration as $keyDate => $listeDomaines)
             {
