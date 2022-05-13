@@ -1,5 +1,5 @@
 <?php
-$translations=[
+$translations=array(
     "Début de la vérification des certificats" => "Beginning certificates check",
     "Des domaines vont expirer dans les 30 jours" => "Some domaines will expire within delay",
     "Les domaines suivants vont expirer dans les 30 jours" => "Following domains will expire withing delay",
@@ -16,4 +16,4 @@ $translations=[
     "Liste des domaines triés par date" => "Domains ordered by date",
     "Liste des domaines sans date" => "Domains without expiration",
     "ERREUR timeout recuperation Certificat pour" => "ERREUR timeout getting Certificate for",
-];
+);

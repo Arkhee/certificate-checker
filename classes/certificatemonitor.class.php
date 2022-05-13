@@ -11,7 +11,10 @@ class CertificateMonitor
     {
         if(is_null(self::$translations)) {
             self::$translations = array();
-            include_once(__ROOT_FOLDER__ . "/translations/" . CertificateMonitorSettings::$lang . ".php");
+            if(file_exists(__ROOT_FOLDER__ . "/translations/" . CertificateMonitorSettings::$lang . ".php"))
+            {
+                include_once(__ROOT_FOLDER__ . "/translations/" . CertificateMonitorSettings::$lang . ".php");
+            }
             if (isset($translations) && is_array($translations) && count($translations)) {
                 self::$translations = $translations;
             }
@@ -24,7 +27,7 @@ class CertificateMonitor
 
     public static function getDomains()
     {
-        $domains=json_decode(file_get_content(__ROOT_FOLDER__."/config/urls.json"));
+        $domains=json_decode(file_get_contents(__ROOT_FOLDER__."/config/urls.json"));
         if(!is_array($domains)) die("Problem reading URLS config file");
         if(!count($domains)) die("No url provided to check certificate");
         return $domains;
