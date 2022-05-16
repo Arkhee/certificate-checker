@@ -144,7 +144,7 @@ class CertificateMonitor
         if(is_array(self::$arrListeDomainesAvecDateExpiration) && count(self::$arrListeDomainesAvecDateExpiration))
         {
             echo "<h2>".self::t("Liste des domaines triés par date d'expiration")." :</h2>\r\n";
-            echo "<table style=''width:100%'><tr><th style='min-width:300px'>".self::t("Nom")."</th><th>".self::t("Date")."</th><th>DNS</th></tr>";
+            echo "<table style='width:100%'><tr><th style='min-width:300px'>".self::t("Nom")."</th><th>".self::t("Date")."</th><th>DNS</th></tr>";
             foreach(self::$arrListeDomainesAvecDateExpiration as $keyDate => $listeDomaines)
             {
                 foreach($listeDomaines as $domaine)
@@ -171,9 +171,20 @@ class CertificateMonitor
                     'Reply-To: '.CertificateMonitorSettings::$mail_from . "\r\n" .
                     'X-Mailer: PHP/' . phpversion();
                 // $tmpfname = tempnam("/tmp", "MAILSCANCERTIF");
-                mail($to, $subject, $message, $headers);
-
+                //mail($to, $subject, $message, $headers);
+                self::utf8mail($to,$subject,$message,CertificateMonitorSettings::$mail_from_name, CertificateMonitorSettings::$mail_from, CertificateMonitorSettings::$mail_from);
             }
         }
+    }
+
+    public static function utf8mail($to,$s,$body,$from_name="x",$from_a = "info@x.com", $reply="info@x.com")
+    {
+        $s= "=?utf-8?b?".base64_encode($s)."?=";
+        $headers = "MIME-Version: 1.0\r\n";
+        $headers.= "From: =?utf-8?b?".base64_encode($from_name)."?= <".$from_a.">\r\n";
+        $headers.= "Content-Type: text/plain;charset=utf-8\r\n";
+        $headers.= "Reply-To: $reply\r\n";
+        $headers.= "X-Mailer: PHP/" . phpversion();
+        mail($to, $s, $body, $headers);
     }
 }

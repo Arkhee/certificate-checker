@@ -2,6 +2,7 @@
 class CertificateMonitorSettings
 {
     static $mail_from="website@mail.com"; // From which email the alert is sent, check that the sending domain is authorized with your host IP (SPF etc)
+    static $mail_from_name="Webmaster for Certificate checker";
     static $mail_to="your@mail.com"; // Who wille receive the alert
     static $sendmail=true; // Do you want to receive a mail alert ?
     static $lang="fr"; // Obviously because I'm french, set "en" or "fr", or provide another translation
